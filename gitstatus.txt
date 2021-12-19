@@ -1,0 +1,53 @@
+git  command
+
+
+Dell@DESKTOP-H8UJOT8 MINGW64 ~/Desktop/GitFile
+
+$ git clone https://github.com/RoshaMahalle/PythonCode.git
+
+Cloning into 'PythonCode'...
+remote: Enumerating objects: 9, done.
+remote: Counting objects: 100% (9/9), done.
+remote: Compressing objects: 100% (8/8), done.
+remote: Total 9 (delta 1), reused 0 (delta 0), pack-reused 0
+Receiving objects: 100% (9/9), 4.65 KiB | 1.55 MiB/s, done.
+Resolving deltas: 100% (1/1), done.
+
+Dell@DESKTOP-H8UJOT8 MINGW64 ~/Desktop/GitFile
+$cd PythonCode
+
+Dell@DESKTOP-H8UJOT8 MINGW64 ~/Desktop/GitFile
+$ git status
+On branch main
+Your branch is up to date with 'origin/main'.
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+        modified:   New Text Document.txt       (red color)  (current/working directory)
+
+Dell@DESKTOP-H8UJOT8 MINGW64 ~/Desktop/GitFile/PythonCode (main)
+$ git add New\ Text\ Document.txt
+
+Dell@DESKTOP-H8UJOT8 MINGW64 ~/Desktop/GitFile/PythonCode (main)
+$ git status
+On branch main
+Your branch is up to date with 'origin/main'.
+
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+        modified:   New Text Document.txt        (green color)    (staging area)
+
+Dell@DESKTOP-H8UJOT8 MINGW64 ~/Desktop/GitFile/PythonCode (main)
+$ git status
+On branch main
+Your branch is up to date with 'origin/main'.
+
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+        modified:   New Text Document.txt
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+        gitstatus.txt
+

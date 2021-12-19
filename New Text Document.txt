@@ -233,3 +233,7 @@ select * from Dev_2;
 
 
 alter table Dev_2 drop constraint PK__Dev_2__D9509F6D5E42E8D3, UQ__Dev_2__0E8FC1F06E0F37B3;
+
+-----------------------------------------------
+
+Roshan Mahalle
