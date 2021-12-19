@@ -1,0 +1,235 @@
+EquiJoin, cross join, self join ,etc
+
+
+------Equi_join
+--Equi_join  is join but without using a join keyword we can join the two or more tables.
+--While writing Equi-join will use where clause
+
+Create Table A (Aid int, Name varchar(20))
+Create Table B (Bid int, Name varchar(20),Aid int)
+Create Table C (Cid int, Name varchar(20),Bid int)
+
+insert Into A values(1,'Sam')
+insert Into A values(2,'tom')
+insert Into A values(3,'harry')
+insert Into A values(4,'katich')
+insert Into A values(5,'kate')
+insert Into B values(11,'harry',3)
+insert Into B values(12,'katich',4)
+insert Into B values(13,'kate',5)
+insert Into B values(14,'mate',6)
+insert Into B values(15,'sat',7)
+insert Into C values(21,'harry',13)
+insert Into C values(22,'katich',14)
+insert Into C values(23,'kate',15)
+insert Into C values(24,'mate',16)
+insert Into C values(25,'sat',17)
+
+select * from A
+select * from B
+
+select * from A ,B,C where A.Aid=B.aid and b.Bid =c.Bid;
+
+
+-----Cross Join 
+--Cross Join is nothing but a cartesian product.
+
+select * from A cross join B 
+
+select * from A
+select * from B
+--By using cross join we can create inner join by providing condition.
+select * from a cross join b where a.Aid =b.Aid
+select * from A cross join B cross join C
+
+---Self join
+--Joining a table with itself is nothing but self join.
+
+create table SELF_TEST_EMP(EID int, ENAME varchar(20),ManagerID varchar(20))
+insert into SELF_TEST_EMP values(1,'Shivam',2)
+insert into SELF_TEST_EMP values(2,'krishna',4)
+insert into SELF_TEST_EMP values(3,'meera',NULL)
+insert into SELF_TEST_EMP values(4,'radha',2)
+insert into SELF_TEST_EMP values(5,'bali',1)
+
+select * from SELF_TEST_EMP;
+
+select * from SELF_TEST_EMP as T1 ,SELF_TEST_EMP as T2 where T1.ManagerID = T2.EID
+select T1.eid ,T1.Ename from SELF_TEST_EMP as T1 ,SELF_TEST_EMP as T2 where T1.ManagerID = T2.EID
+
+select s1.EID,s1.ENAME,s2.ENAME from SELF_TEST_EMP S1,SELF_TEST_EMP S2 where S1.ManagerID = S2.EID
+
+
+
+
+
+
+
+===========================================================================================================
+
+-- SQL SERVER FUNCTION
+-- 1. UPPER 2. LOWER  3. LENGTH/DATALENGTH  4. SUBSTRNG  
+-- 5. CONCAT 
+
+-- SYNTAX : concat (str1, str2)
+
+select concat ('Roshan', '', 'Patil')
+
+select * from Employee;
+select *, concat(Ename, '-',Ecity) as fullname from Employee;
+select *, concat_ws('_',Ename,Ecity) as fullname from Employee;
+select eid, ename+ecity from Employee;
+
+
+-- trim, ltrim , rtrim
+
+select 'Roshan';
+'Roshan'
+
+select '     Roshan    ';
+'     Roshan    '
+
+select LTRIM('     Roshan    ');
+'Roshan    '
+
+select RTRIM('     Roshan    ');
+'     Roshan'
+
+select rtrim(ltrim('      Roshan     '));
+'Roshan'
+
+select trim ('A' from Ename) from Employee;
+
+-- REVERSE 
+
+select REVERSE ('pune');
+
+select *, reverse (Ename) as new from Employee;
+
+-- replicate 
+
+select replicate ('ABCD', 2);
+
+SELECT *, REPLICATE(ENAME,2) FROM Employee;
+
+-- ROUND 
+-- syntax : round ( num_expe, length, [fun] )
+
+select ROUND(45.622);
+
+==================================================================================
+
+select * from Employee;
+
+select top 6 esal from employee order by esal desc;
+
+-- 6th max sala using top and subquery
+
+select min(esal) from Employee where Esal in 
+(select top 6 esal from employee order by esal desc)
+
+-- 4 th min sal
+select max(esal) from Employee where Esal in 
+(select top 4 esal from employee order by esal asc)
+
+-- Rename
+
+-- sp rename
+-- syntax : sp_rename 'Tablename.oldcolname', 'New_col_name'
+select * from Employee;
+sp_rename 'Employee.Ename','Emp_Name'
+
+
+-- exit and not exit : co-relational query
+
+--Sub query(Nested subquery)
+--Query within query i.e outer query(OQ) and inside inner query(IQ).
+--OQ and IQ is independent.
+--It follows bottom up approach
+--Inside Subquery, IQ always execute only once.
+
+select * from customer where C_ID in (select CID from orders) --(C2,C3,C1,C2,C4,C2)
+
+
+--Co-relational query
+--Query within query i.e outer query(OQ) and inside inner query(IQ).
+--IQ is dependent on outer query.
+--It follows top down up approach.
+
+
+Create Table customer(C_ID varchar(5) primary key ,CNAME varchar(20),Loc varchar(20))
+insert into customer values('C1','AMIT','PUNE')
+insert into customer values('C2','Sumit','Delhi')
+insert into customer values('C3','varun','Mumbai')
+insert into customer values('C4','snehal','Latur')
+insert into customer values('C5','Raj','Sangli')
+insert into customer values('C6','Mohit','Satara')
+select * from customer
+
+create table orders(OID int primary key, CID varchar(5),groceries varchar(20))
+insert into orders values(1,'C2','almonds')
+insert into orders values(2,'C3','deo')
+insert into orders values(3,'C1','milk')
+insert into orders values(4,'C2','soap')
+insert into orders values(5,'C4','dishes')
+insert into orders values(6,'C2','rice')
+select * from orders
+
+select  from customer where exists (select  from orders where customer.C_ID = orders.CID) ;
+select * from customer C where exists (select * from orders O where C.C_ID =O.CID );
+select  from customer where not exists (select  from orders as O where customer.C_ID = O.CID);
+
+------------------
+create table over_Test(EMPID int, FirstName varchar(20),Gender varchar(2),salary int) 
+insert into over_Test values(1,'Mohini','F',1000)
+insert into over_Test values(2,'Rohit','M',2000)
+insert into over_Test values(3,'Amit','M',4000)
+insert into over_Test values(4,'Sonal','F',5000)
+insert into over_Test values(5,'Minal','F',6000)
+insert into over_Test values(6,'Amar','M',3600)
+insert into over_Test values(7,'Shital','F',4500)
+insert into over_Test values(8,'Sohil','M',6000)
+insert into over_Test values(9,'praveen','F',9000)
+insert into over_Test values(10,'Mithali','F',9000)
+insert into over_Test values(11,'seema','F',9000)
+insert into over_Test values(12,'meena','F',10000)
+
+select * from over_Test;
+
+select gender, count(*) from over_Test group by Gender;
+
+select gender, FirstName, count(gender)  over (partition by gender) as total_count from over_test;
+
+select *, ROW_NUMBER() over (order by esal asc) as rownum from Employee;  --
+select *, ROW_NUMBER() over (partition by esal order by esal asc) as rownum from Employee;  --
+select *, ROW_NUMBER() over (partition by ecity order by esal asc) as rownum from Employee;
+
+select *, RANK() over (order by esal asc) as ranknum from Employee;  --
+select *, RANK() over (partition by esal order by esal asc) as ranknum from Employee;   --
+select *, RANK() over (partition by Ecity order by esal asc) as ranknum from Employee;
+
+select *, DENSE_RANK() over ( order by esal asc) as ranknum from Employee;   --
+select *, DENSE_RANK() over (partition by esal order by esal asc) as ranknum from Employee;  --
+
+
+-- delete constraints
+
+create table Dev_1 (id int primary key );
+
+insert into Dev_1 values (1);
+insert into Dev_1 values (2);
+
+select * from Dev_1;
+
+alter table Dev_1 drop constraint PK__Dev_1__3213E83FB2B4F2E1;
+alter table Dev_1 add ename varchar (20) ;
+
+create table Dev_2 (eid int primary key, ename varchar(20) unique);
+
+insert into Dev_2 values  (101,'Roshan');
+insert into Dev_2 values (102,'Chetan');
+
+select * from Dev_2;
+
+
+alter table Dev_2 drop constraint PK__Dev_2__D9509F6D5E42E8D3, UQ__Dev_2__0E8FC1F06E0F37B3;
